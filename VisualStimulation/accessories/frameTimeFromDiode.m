@@ -22,7 +22,7 @@ maxChunck=1000*60*20; %ms
 trialStartEndDigiTriggerNumbers=[3 4];
 analogChNum=[]; %this used to be 1, now Kwik's getAnalog finds on its own
 transition=[];
-delay2Shift=1.5/60*1000; %ms
+delay2Shift=2.5/60*1000; %ms
 maxFrameDeviation=0.5/60*1000; %ms
 
 plotDiodeTransitions=0;
@@ -102,6 +102,7 @@ if ~noisyAnalog %if noisy, estimate for each chunk
         hWB=waitbar(0,hWB,'Classifying transition on sample data...');
         %take the analog data during the first 10 trials (if available) with length of double the trial size 
         avgTrialDuration=round(mean(T{trialStartEndDigiTriggerNumbers(2)}-T{trialStartEndDigiTriggerNumbers(1)})*2);
+%         [Atmp]=dataRecordingObj.getAnalogData(analogChNum,T{trialStartEndDigiTriggerNumbers(1)}-100,avgTrialDuration);
         [Atmp]=dataRecordingObj.getAnalogData(analogChNum,T{trialStartEndDigiTriggerNumbers(1)}(randi([2, max(11,numel(T{trialStartEndDigiTriggerNumbers(1)}))-1],[1 min(10,numel(T{trialStartEndDigiTriggerNumbers(1)}))-2]))-100,avgTrialDuration);
         Atmp=permute(Atmp,[3 1 2]);Atmp=Atmp(:);
         medAtmp = fastmedfilt1d(Atmp,round(frameSamples*0.8));
